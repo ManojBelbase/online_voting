@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import UserProfile from "../userProfile/UserProfile";
+import { FaRegUser } from "react-icons/fa";
 
 const navItems = [
   {
@@ -22,7 +23,6 @@ const Navbar = () => {
   const { userProfile, logout } = useContext(AuthContext);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
-  console.log(userProfile);
 
   useEffect(() => {
     const token = localStorage.getItem("vote_token");
@@ -30,7 +30,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="flex bg-black text-white px-20 pt-6 items-center">
+    <nav className="flex bg-black text-white px-20 py-6 items-center">
       <ul className="flex gap-6 items-center flex-grow">
         {navItems.map((item) => (
           <li key={item.title} className="text-sm uppercase font-normal">
@@ -55,7 +55,10 @@ const Navbar = () => {
         </Link>
       ) : (
         <div className="relative">
-          <button onClick={() => setIsProfileOpen((prev) => !prev)}>
+          <button
+            onClick={() => setIsProfileOpen((prev) => !prev)}
+            className="capitalize"
+          >
             {userProfile.name}
           </button>
           {isProfileOpen ? (

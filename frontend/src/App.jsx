@@ -8,6 +8,7 @@ import Contact from "./pages/Contact";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import ChangePassword from "./components/auth/ChangePassword";
+import GetAllCandidates from "./components/Candidates/GetAllCandidates.jsx";
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
         <Route index element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/candidates" element={<GetAllCandidates />} />
       </Route>
     </Routes>
   );

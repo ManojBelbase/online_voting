@@ -1,11 +1,11 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { Link } from "react-router";
-
+import { motion } from "framer-motion";
 const UserProfile = ({ userProfile }) => {
   const { logout } = useContext(AuthContext);
   return (
-    <div className="w-80 mx-auto p-6 bg-gray-100 rounded-lg shadow-md">
+    <motion.div className="w-80 mx-auto p-6 bg-gray-100 rounded-lg shadow-md">
       <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">
         User Profile
       </h2>
@@ -46,7 +46,7 @@ const UserProfile = ({ userProfile }) => {
           </Link>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

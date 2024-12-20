@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createContext, useState, useEffect } from "react";
-import { USER_API_END_POINT } from "../utils/Constant";
+import { CANDIDATE_API_END_POINT, USER_API_END_POINT } from "../utils/Constant";
 import { useNavigate } from "react-router";
 
 // Create AuthContext
@@ -13,6 +13,8 @@ const AuthProvider = ({ children }) => {
     localStorage.getItem("vote_token") || null
   );
   const [userProfile, setUserProfile] = useState([]);
+
+  const [candidates, setCandidates] = useState([]);
   const navigate = useNavigate();
 
   const register = async (userData) => {
@@ -71,7 +73,6 @@ const AuthProvider = ({ children }) => {
         },
       });
       setUserProfile(response.data.data);
-      console.log("User profile fetched:", response.data.data);
     } catch (error) {
       console.error("Failed to fetch profile:", error.response || error);
       alert(
@@ -119,10 +120,47 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  // Fetch All candidates
+  const GetAllCandidates = async () => {
+    try {
+      const response = await axios.get(`${CANDIDATE_API_END_POINT}/get`);
+
+      setCandidates(response.data.candidates);
+    } catch (error) {
+      console.error("Failed to fetch candidates:", error.response || error);
+      alert(
+        error.response?.data?.error ||
+          "Failed to fetch candidates. Please try again."
+      );
+    }
+  };
+
+  // Vote
+
+  const vote = async (candidateId) => {
+    console.log(candidateId);
+    try {
+      const response = await axios.post(
+        `http://localhost:3000/api/candidate/vote/${candidateId}`, // Update with your actual endpoint
+        {}, // No request body is needed
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, // Ensure the user is authenticated
+          },
+        }
+      );
+      console.log(response.data.message); // Success message
+      alert("Vote cast successfully!");
+    } catch (error) {
+      console.error("Error voting:", error.response?.data || error.message);
+      alert(error.response?.data?.message || "An error occurred");
+    }
+  };
+
   useEffect(() => {
+    GetAllCandidates();
     if (token) {
       profile();
-      console.log("User logged in with token:", token);
     }
   }, [token]);
 
@@ -137,6 +175,8 @@ const AuthProvider = ({ children }) => {
         userProfile,
         logout,
         changePassword,
+        candidates,
+        vote,
       }}
     >
       {children}

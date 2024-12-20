@@ -29,9 +29,12 @@ export const HeroSection = () => {
           >
             Register
           </Link>
-          <button className="bg-blue-600 uppercase px-6 py-2 rounded-md">
-            Read More
-          </button>
+          <Link
+            to={"/candidates"}
+            className="bg-blue-600 uppercase px-6 py-2 rounded-md"
+          >
+            View Candidates
+          </Link>
         </div>
       </div>
     </div>
