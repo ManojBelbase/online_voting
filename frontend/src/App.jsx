@@ -7,12 +7,15 @@ import About from "./pages/About";
 import Contact from "./pages/Contact";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
+import ChangePassword from "./components/auth/ChangePassword";
 
 function App() {
   return (
     <Routes>
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
+      <Route path="/change_password" element={<ChangePassword />} />
+
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="/about" element={<About />} />

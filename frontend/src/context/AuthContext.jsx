@@ -1,28 +1,34 @@
 import axios from "axios";
 import { createContext, useState, useEffect } from "react";
 import { USER_API_END_POINT } from "../utils/Constant";
+import { useNavigate } from "react-router";
 
+// Create AuthContext
 export const AuthContext = createContext();
 
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false); // To track loading state
-  const [token, setToken] = useState(localStorage.getItem("token") || null); // Get token from localStorage if available
+  const [loading, setLoading] = useState(false);
+  const [token, setToken] = useState(
+    localStorage.getItem("vote_token") || null
+  );
+  const [userProfile, setUserProfile] = useState([]);
+  const navigate = useNavigate();
 
-  // Register function to handle the API call
   const register = async (userData) => {
-    setLoading(true); // Start loading
+    setLoading(true);
     try {
       const response = await axios.post(
         `${USER_API_END_POINT}/signup`,
         userData
       );
-      setUser(response.data); // Set the user on success
-      setLoading(false); // End loading
+      setUser(response.data);
+      setLoading(false);
+      navigate("/login");
       return response.data;
     } catch (error) {
-      setLoading(false); // End loading
-      console.error(error); // Log the error for debugging
+      setLoading(false);
+      console.error(error);
       alert(
         error.response
           ? error.response.data.message
@@ -31,27 +37,23 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  // Login function to handle the API call
   const login = async (userData) => {
-    setLoading(true); // Start loading
+    setLoading(true);
     try {
       const response = await axios.post(
         `${USER_API_END_POINT}/login`,
         userData
       );
-
-      // Store token in localStorage
-      localStorage.setItem("token", response.data.token);
-
-      // Set the token and user data
+      localStorage.setItem("vote_token", response.data.token);
       setToken(response.data.token);
-      setUser(userData); // You can update the user state with more data if needed
-
-      setLoading(false); // End loading
-      return response.data; // Return the response data
+      setUser(userData);
+      setLoading(false);
+      alert("logged in successfully");
+      navigate("/");
+      return response.data;
     } catch (error) {
-      setLoading(false); // End loading
-      console.error(error); // Log the error for debugging
+      setLoading(false);
+      console.error(error);
       alert(
         error.response
           ? error.response.data.error
@@ -60,15 +62,83 @@ const AuthProvider = ({ children }) => {
     }
   };
 
-  // Check if the token exists on page load
+  const profile = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${USER_API_END_POINT}/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setUserProfile(response.data.data);
+      console.log("User profile fetched:", response.data.data);
+    } catch (error) {
+      console.error("Failed to fetch profile:", error.response || error);
+      alert(
+        error.response?.data?.error ||
+          "Failed to fetch user profile. Please try again."
+      );
+      setToken(null);
+      localStorage.removeItem("vote_token");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const logout = () => {
+    localStorage.removeItem("vote_token");
+    setToken(null);
+    setUser(null);
+    setUserProfile([]);
+    navigate("/");
+    window.location.reload();
+  };
+
+  const changePassword = async (passwordData) => {
+    setLoading(true);
+    try {
+      const response = await axios.put(
+        `${USER_API_END_POINT}/profile/password`,
+        passwordData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setLoading(false);
+      alert("Password changed successfully!");
+      return response.data;
+    } catch (error) {
+      setLoading(false);
+      console.error("Failed to change password:", error.response || error);
+      alert(
+        error.response?.data?.error ||
+          "Failed to change password. Please try again."
+      );
+    }
+  };
+
   useEffect(() => {
     if (token) {
+      profile();
       console.log("User logged in with token:", token);
     }
   }, [token]);
 
   return (
-    <AuthContext.Provider value={{ user, register, login, loading, token }}>
+    <AuthContext.Provider
+      value={{
+        user,
+        register,
+        login,
+        loading,
+        token,
+        userProfile,
+        logout,
+        changePassword,
+      }}
+    >
       {children}
     </AuthContext.Provider>
   );
