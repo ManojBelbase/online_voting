@@ -34,8 +34,9 @@ const CreateCandidate = () => {
         }
       );
       if (response) {
-        naivgate("/");
+        naivgate("/candidates");
       }
+      window.location.reload();
     } catch (error) {
       console.error(
         "Error submitting form:",
@@ -69,6 +70,7 @@ const CreateCandidate = () => {
             name="name"
             value={formData.name}
             onChange={handleChange}
+            required
             className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
@@ -86,6 +88,7 @@ const CreateCandidate = () => {
             name="party"
             value={formData.party}
             onChange={handleChange}
+            required
             className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
@@ -103,6 +106,7 @@ const CreateCandidate = () => {
             name="age"
             value={formData.age}
             onChange={handleChange}
+            required
             className="p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>

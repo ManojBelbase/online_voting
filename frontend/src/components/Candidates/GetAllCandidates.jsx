@@ -4,10 +4,15 @@ import { motion, AnimatePresence } from "framer-motion";
 import { FaAngleRight } from "react-icons/fa6";
 import { FaAngleUp } from "react-icons/fa6";
 import { Link } from "react-router";
-import { IoCreateOutline } from "react-icons/io5";
+import { IoIosAddCircleOutline } from "react-icons/io";
+import { FaEdit } from "react-icons/fa";
+import { MdDeleteOutline } from "react-icons/md";
+import useDeleteCandidate from "../../Admin/useDeleteCandidate";
+
 const GetAllCandidates = () => {
   const { candidates, userProfile, vote } = useContext(AuthContext);
   const [expandCandidateId, setExpandCandidateId] = useState(null);
+  const deleteCandidate = useDeleteCandidate(); // Corrected this line
 
   const toggleExpand = (id) => {
     setExpandCandidateId((prev) => (prev === id ? null : id));
@@ -25,7 +30,7 @@ const GetAllCandidates = () => {
               to={"create"}
               className="flex items-center gap-2 border py-1 px-2 border-black"
             >
-              Create <IoCreateOutline className="text-xl" />
+              Create <IoIosAddCircleOutline className="text-xl" />
             </Link>
           </motion.div>
         )}
@@ -81,14 +86,32 @@ const GetAllCandidates = () => {
                   <p className="text-gray-700 mb-2">
                     <strong>Total Votes:</strong> {candidate.voteCount}
                   </p>
-                  <motion.button
-                    onClick={() => vote(candidate._id)}
-                    className="px-4 py-1 border-blue-500 border-2 rounded-md text-xl bg-blue-500 text-white"
-                    whileHover={{ scale: 1.1, backgroundColor: "#2563eb" }}
-                    whileTap={{ scale: 0.95 }}
-                  >
-                    Vote
-                  </motion.button>
+                  {/* Action Buttons */}
+                  <div className="flex items-center justify-between">
+                    {!userProfile.role === "admin" && (
+                      <div className="flex items-center gap-2 justify-center">
+                        <motion.button
+                          onClick={() => vote(candidate._id)}
+                          className="h-5 w-5  border-green-500 border-2 rounded-full text-xl bg-white text-white"
+                          whileHover={{
+                            scale: 1.1,
+                            backgroundColor: "#2563eb",
+                          }}
+                          whileTap={{ scale: 0.95 }}
+                        ></motion.button>
+                        <span>Vote</span>
+                      </div>
+                    )}
+
+                    <div className="flex gap-3">
+                      <Link to={`update/${candidate._id}`}>
+                        <FaEdit className="text-xl text-blue-500  cursor-pointer" />
+                      </Link>
+                      <button onClick={() => deleteCandidate(candidate._id)}>
+                        <MdDeleteOutline className="text-2xl text-red-500 cursor-pointer" />
+                      </button>
+                    </div>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>

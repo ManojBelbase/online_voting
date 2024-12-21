@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router";
 import "./App.css";
-import Navbar from "./components/shared/Navbar";
 import Layout from "./layout/Layout";
 import Home from "./pages/Home";
 import About from "./pages/About";
@@ -10,6 +9,8 @@ import Login from "./components/auth/Login";
 import ChangePassword from "./components/auth/ChangePassword";
 import GetAllCandidates from "./components/Candidates/GetAllCandidates.jsx";
 import CreateCandidate from "./Admin/CreateCandidate.jsx";
+import EditCandidate from "./Admin/EditCandidate.jsx";
+import DeleteCandidate from "./Admin/useDeleteCandidate.jsx";
 
 function App() {
   return (
@@ -26,6 +27,15 @@ function App() {
       </Route>
       {/* Admin */}
       <Route path="/candidates/create" element={<CreateCandidate />} />
+      <Route
+        path="/candidates/update/:candidateId"
+        element={<EditCandidate />}
+      />
+
+      <Route
+        path="/candidates/delete/:candidateId"
+        element={<DeleteCandidate />}
+      />
     </Routes>
   );
 }
