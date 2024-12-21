@@ -58,7 +58,7 @@ const EditCandidate = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-md mx-auto p-6 bg-white shadow-lg rounded-lg space-y-4"
+      className="max-w-md mx-auto my-10 p-6 bg-white shadow-lg rounded-lg space-y-4"
     >
       <h1 className="font-bold text-xl">Edit Candidate</h1>
       <div className="flex flex-col">

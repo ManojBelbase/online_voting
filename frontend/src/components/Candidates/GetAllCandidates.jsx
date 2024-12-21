@@ -19,7 +19,7 @@ const GetAllCandidates = () => {
   };
 
   return (
-    <div className="md:px-32 px-2 my-4">
+    <div className="md:px-32 px-2 my-4 bg-white py-4">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
           All Candidates

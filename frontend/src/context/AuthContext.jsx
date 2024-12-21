@@ -17,6 +17,8 @@ const AuthProvider = ({ children }) => {
   const [candidates, setCandidates] = useState([]);
   const navigate = useNavigate();
 
+  const [liveVoteCount, setLiveVoteCount] = useState([]);
+
   const register = async (userData) => {
     setLoading(true);
     try {
@@ -157,8 +159,20 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  // Fetching live vote count
+  const voteCount = async () => {
+    try {
+      const response = await axios.get(`${CANDIDATE_API_END_POINT}/vote/count`);
+      console.log(response.data.voteRecord);
+      setLiveVoteCount(response.data.voteRecord);
+    } catch (error) {
+      console.log("can't fetch vote count");
+    }
+  };
+
   useEffect(() => {
     GetAllCandidates();
+    voteCount();
     if (token) {
       profile();
     }
@@ -177,6 +191,7 @@ const AuthProvider = ({ children }) => {
         changePassword,
         candidates,
         vote,
+        liveVoteCount,
       }}
     >
       {children}

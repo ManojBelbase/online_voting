@@ -2,7 +2,7 @@ import React from "react";
 
 const About = () => {
   return (
-    <div className="px-4 md:px-16 lg:px-32 py-8">
+    <div className="px-4 md:px-16 lg:px-32 py-8 bg-white">
       <h1 className="text-4xl font-bold text-center text-gray-800 mb-6">
         About Our Voting App
       </h1>
