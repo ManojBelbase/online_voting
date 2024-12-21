@@ -9,6 +9,7 @@ import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import ChangePassword from "./components/auth/ChangePassword";
 import GetAllCandidates from "./components/Candidates/GetAllCandidates.jsx";
+import CreateCandidate from "./Admin/CreateCandidate.jsx";
 
 function App() {
   return (
@@ -23,6 +24,8 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/candidates" element={<GetAllCandidates />} />
       </Route>
+      {/* Admin */}
+      <Route path="/candidates/create" element={<CreateCandidate />} />
     </Routes>
   );
 }

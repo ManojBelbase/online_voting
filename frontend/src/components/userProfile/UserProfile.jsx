@@ -5,7 +5,13 @@ import { motion } from "framer-motion";
 const UserProfile = ({ userProfile }) => {
   const { logout } = useContext(AuthContext);
   return (
-    <motion.div className="w-80 mx-auto p-6 bg-gray-100 rounded-lg shadow-md">
+    <motion.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: -20 }}
+      layout
+      className="w-80 mx-auto p-6 bg-gray-100 rounded-lg shadow-md"
+    >
       <h2 className="text-2xl font-bold text-center text-gray-800 mb-4">
         User Profile
       </h2>

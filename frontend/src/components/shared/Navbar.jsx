@@ -57,9 +57,10 @@ const Navbar = () => {
         <div className="relative">
           <button
             onClick={() => setIsProfileOpen((prev) => !prev)}
-            className="capitalize"
+            className="capitalize flex items-center gap-2"
           >
-            {userProfile.name}
+            <span> Welcome, {userProfile.name}</span>
+            <FaRegUser className="text-2xl" />
           </button>
           {isProfileOpen ? (
             <div className="absolute right-0">

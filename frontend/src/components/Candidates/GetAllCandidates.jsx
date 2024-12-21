@@ -3,9 +3,10 @@ import { AuthContext } from "../../context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { FaAngleRight } from "react-icons/fa6";
 import { FaAngleUp } from "react-icons/fa6";
-
+import { Link } from "react-router";
+import { IoCreateOutline } from "react-icons/io5";
 const GetAllCandidates = () => {
-  const { candidates, vote } = useContext(AuthContext);
+  const { candidates, userProfile, vote } = useContext(AuthContext);
   const [expandCandidateId, setExpandCandidateId] = useState(null);
 
   const toggleExpand = (id) => {
@@ -14,9 +15,21 @@ const GetAllCandidates = () => {
 
   return (
     <div className="md:px-32 px-2 my-4">
-      <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
-        All Candidates
-      </h1>
+      <div className="flex items-center justify-between">
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
+          All Candidates
+        </h1>
+        {userProfile.role === "admin" && (
+          <motion.div whileHover={{ scale: 1.01 }}>
+            <Link
+              to={"create"}
+              className="flex items-center gap-2 border py-1 px-2 border-black"
+            >
+              Create <IoCreateOutline className="text-xl" />
+            </Link>
+          </motion.div>
+        )}
+      </div>
       <ul className="grid gap-6">
         {candidates.map((candidate) => (
           <motion.li
