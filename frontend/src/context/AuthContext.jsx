@@ -138,7 +138,6 @@ const AuthProvider = ({ children }) => {
   // Vote
 
   const vote = async (candidateId) => {
-    console.log(candidateId);
     try {
       const response = await axios.post(
         `http://localhost:3000/api/candidate/vote/${candidateId}`, // Update with your actual endpoint
@@ -151,6 +150,7 @@ const AuthProvider = ({ children }) => {
       );
       console.log(response.data.message); // Success message
       alert("Vote cast successfully!");
+      window.location.reload();
     } catch (error) {
       console.error("Error voting:", error.response?.data || error.message);
       alert(error.response?.data?.message || "An error occurred");

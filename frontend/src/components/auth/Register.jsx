@@ -2,14 +2,18 @@ import React, { useContext } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import img from "../../assets/header/register.png";
-import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 
 const Register = () => {
   // Validation schema
   const validationSchema = Yup.object({
     name: Yup.string().required("Name is required"),
-    age: Yup.number().required("Age is required").positive().integer(),
+    age: Yup.number()
+      .required("Age is required")
+      .positive("Age must be a positive number")
+      .integer("Age must be an integer")
+      .min(19, "Age must be greater than 18"),
+
     email: Yup.string().email("Invalid email").required("Email is required"),
     mobile: Yup.string()
       .matches(/^\d{10}$/, "Invalid mobile number")

@@ -11,8 +11,12 @@ import GetAllCandidates from "./components/Candidates/GetAllCandidates.jsx";
 import CreateCandidate from "./Admin/CreateCandidate.jsx";
 import EditCandidate from "./Admin/EditCandidate.jsx";
 import DeleteCandidate from "./Admin/useDeleteCandidate.jsx";
+import { useContext } from "react";
+import { AuthContext } from "./context/AuthContext.jsx";
 
 function App() {
+  const { userProfile } = useContext(AuthContext);
+  console.log(userProfile);
   return (
     <Routes>
       <Route path="/register" element={<Register />} />
@@ -26,16 +30,19 @@ function App() {
         <Route path="/candidates" element={<GetAllCandidates />} />
       </Route>
       {/* Admin */}
-      <Route path="/candidates/create" element={<CreateCandidate />} />
-      <Route
-        path="/candidates/update/:candidateId"
-        element={<EditCandidate />}
-      />
-
-      <Route
-        path="/candidates/delete/:candidateId"
-        element={<DeleteCandidate />}
-      />
+      {userProfile.role == "admin" && (
+        <>
+          <Route path="/candidates/create" element={<CreateCandidate />} />
+          <Route
+            path="/candidates/update/:candidateId"
+            element={<EditCandidate />}
+          />
+          <Route
+            path="/candidates/delete/:candidateId"
+            element={<DeleteCandidate />}
+          />
+        </>
+      )}
     </Routes>
   );
 }

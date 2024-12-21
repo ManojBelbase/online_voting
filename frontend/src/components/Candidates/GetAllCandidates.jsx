@@ -88,7 +88,7 @@ const GetAllCandidates = () => {
                   </p>
                   {/* Action Buttons */}
                   <div className="flex items-center justify-between">
-                    {!userProfile.role === "admin" && (
+                    {userProfile.role !== "admin" && (
                       <div className="flex items-center gap-2 justify-center">
                         <motion.button
                           onClick={() => vote(candidate._id)}
@@ -103,14 +103,16 @@ const GetAllCandidates = () => {
                       </div>
                     )}
 
-                    <div className="flex gap-3">
-                      <Link to={`update/${candidate._id}`}>
-                        <FaEdit className="text-xl text-blue-500  cursor-pointer" />
-                      </Link>
-                      <button onClick={() => deleteCandidate(candidate._id)}>
-                        <MdDeleteOutline className="text-2xl text-red-500 cursor-pointer" />
-                      </button>
-                    </div>
+                    {userProfile.role == "admin" && (
+                      <div className="flex gap-3">
+                        <Link to={`update/${candidate._id}`}>
+                          <FaEdit className="text-xl text-blue-500  cursor-pointer" />
+                        </Link>
+                        <button onClick={() => deleteCandidate(candidate._id)}>
+                          <MdDeleteOutline className="text-2xl text-red-500 cursor-pointer" />
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </motion.div>
               )}
